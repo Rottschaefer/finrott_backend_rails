@@ -2,13 +2,14 @@ class AuthController < ApplicationController
     skip_before_action :authorized, only: [:login]
 
     def login
-        @user = User.find_by!(email: login_params[:email])
+
+        @user = User.find_by!(email: login_params["email"])
 
 
         if @user.authenticate(login_params[:password])
             @token = encode_token(login_params[:email])
 
-            render json: {name: @user.name, email: @user.email, token: @token}, status: :accepted
+            render json: {id: @user.id, name: @user.name, email: @user.email, token: @token}, status: :accepted
         else
             render json: {message: 'Incorrect password'}, status: :unauthorized
         end
@@ -25,6 +26,6 @@ class AuthController < ApplicationController
     private
 
     def login_params
-        params.require(:auth).permit(:email, :password)
+        params.require(:auth).permit(:email, :password, :token)
     end
 end

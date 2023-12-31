@@ -5,9 +5,9 @@ class CreateAccounts < ActiveRecord::Migration[7.1]
       t.string :item_id
       t.integer :user_id
       # t.string :transfer_number
-      # t.string :bank_name
+      t.string :bank_name
       # t.string :name
-      # t.float :balance
+      t.float :balance
 
       t.timestamps
     end

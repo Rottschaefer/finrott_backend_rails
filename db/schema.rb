@@ -10,17 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_12_31_010437) do
+ActiveRecord::Schema[7.1].define(version: 2023_12_31_150120) do
   create_table "accounts", force: :cascade do |t|
     t.string "pluggy_id"
     t.string "item_id"
     t.integer "user_id"
-    t.string "transfer_number"
     t.string "bank_name"
-    t.string "name"
     t.float "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "bank_primary_color"
+    t.string "institution_url"
+    t.string "institution_image_url"
   end
 
   create_table "items", force: :cascade do |t|
