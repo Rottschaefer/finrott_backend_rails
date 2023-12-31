@@ -1,11 +1,17 @@
-class User < ApplicationRecord
+class User < ApplicationRecord 
+    before_save {self.email = email.downcase}
+    has_many :accounts
+    has_many :items
+    validates :name, 
+        presence: true,
+        length: {minimum: 2}
 
-    has_many :expenses
+    VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
+    validates :email,
+        presence: true,
+        uniqueness: {case_sensitive: false},
+        format: {with: VALID_EMAIL_REGEX}
 
     has_secure_password
-  
-    validates :name, presence: true
-    validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
-    validates :password, length: { minimum: 6 }
-  end
-  
+
+end
