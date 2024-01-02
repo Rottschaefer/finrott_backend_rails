@@ -55,6 +55,7 @@ default: &default
 development:
   <<: *default
   adapter: postgresql
+  host: localhost
   database: finrott_backend_rails_development
   username: finrott_backend
   password: <%= ENV['YOUR_PRODUCTION_DATABASE_PASSWORD'] %>
@@ -69,6 +70,6 @@ test:
 production:
   <<: *default
   adapter: postgresql
-  database: finrott_backend_rails_production
-  username: finrott_backend
+  database: da1f09qcdm3jgf
+  username: krcfzxgdmioxjh
   password: <%= ENV['YOUR_PRODUCTION_DATABASE_PASSWORD'] %>
