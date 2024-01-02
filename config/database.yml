@@ -5,7 +5,7 @@
 #   gem "sqlite3"
 #
 default: &default
-  adapter: sqlite3
+  adapter: mysql2
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   timeout: 5000
 
@@ -22,4 +22,27 @@ test:
 
 production:
   <<: *default
-  database: storage/production.sqlite3
+  database: zlfxox2ud4j8xunv
+  username: fw5jrsrlyiv2zle7
+  password: <%= ENV['YOUR_PRODUCTION_DATABASE_PASSWORD'] %>
+# default: &default
+#   adapter: mysql2
+#   encoding: utf8
+#   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+#   username: fw5jrsrlyiv2zle7
+#   password: your_mysql_password
+#   host: localhost
+
+# development:
+#   <<: *default
+#   database: your_project_development
+
+# test:
+#   <<: *default
+#   database: your_project_test
+
+# production:
+#   <<: *default
+#   database: zlfxox2ud4j8xunv
+#   username: fw5jrsrlyiv2zle7
+#   password: <%= ENV['YOUR_PRODUCTION_DATABASE_PASSWORD'] %>
