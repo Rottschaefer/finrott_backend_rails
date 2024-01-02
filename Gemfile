@@ -4,6 +4,8 @@ ruby "3.2.2"
 
 gem "http"
 
+gem "pg"
+
 gem 'dotenv-rails', groups: [:development, :test]
 
 gem 'jwt'
@@ -48,15 +50,15 @@ group :development, :test do
   gem "debug", platforms: %i[ mri windows ]
 end
 
-group :development do
-  gem 'sqlite3'
+# group :development do
+#   gem 'sqlite3'
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
-end
+# end
 
-group :production do
-  gem 'mysql2'
-end
+# group :production do
+#   gem 'mysql2'
+# end
 
 
