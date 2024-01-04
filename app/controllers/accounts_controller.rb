@@ -20,7 +20,7 @@ class AccountsController < ApplicationController
   # POST /accounts
   def create
 
-    pluggyApiKey = get_pluggy_key
+    pluggyApiKey = get_pluggy_key()
     config = {"X-API-KEY" => pluggyApiKey}
 
 

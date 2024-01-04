@@ -2,6 +2,7 @@ class User < ApplicationRecord
     before_save {self.email = email.downcase}
     has_many :accounts
     has_many :items
+    has_many :transactions
     validates :name, 
         presence: true,
         length: {minimum: 2}
