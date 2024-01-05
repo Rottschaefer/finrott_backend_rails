@@ -5,16 +5,18 @@ class TestsController < ApplicationController
 
     def test
 
-
+    accountId = params[:accountId]
     
-        body = {
-            clientId: ENV['CLIENT_ID'],
-            clientSecret: ENV['CLIENT_SECRET']
-        }
+    apiKey =  get_pluggy_key
 
-        response = HTTP.post("https://api.pluggy.ai/auth", :json => body)
+    config = {"X-API-KEY" => apiKey}
 
-        render json: {response: JSON.parse(response.body)["apiKey"]}
+    response = JSON.parse(HTTP.headers(config).get("https://api.pluggy.ai/transactions?accountId=#{accountId}").body)
+
+    p response
+        # response = HTTP.post("https://api.pluggy.ai/transactions?accountId=#{accountId}", :json => body)
+
+        # render json: {response: JSON.parse(response.body)["apiKey"]}
     end
 
 end

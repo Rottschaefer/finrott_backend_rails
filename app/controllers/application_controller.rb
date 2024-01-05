@@ -8,8 +8,6 @@ class ApplicationController < ActionController::API
 
     def decoded_token
         header = request.headers['Authorization']
-
-        puts header
         
         if header
             token = header.split(" ")[1]
