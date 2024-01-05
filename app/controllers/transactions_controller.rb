@@ -14,18 +14,40 @@ class TransactionsController < ApplicationController
   end
 
   # POST /transactions
+  # 
+  
   def create
-    @transaction = Transaction.new(transaction_params)
-
-    if @transaction.save
-      render json: @transaction, status: :created, location: @transaction
+    if transaction_params.length == 1
+      # Processando uma única transação
+      process_single_transaction(transaction_params.first)
     else
-      render json: @transaction.errors, status: :unprocessable_entity
+      # Processando múltiplas transações
+      process_multiple_transactions(transaction_params)
     end
   end
 
-  # PATCH/PUT /transactions/1
-  def update
+  def first_setup_transactions
+    
+    accountId = params[:accountId]
+
+    apiKey =  get_pluggy_key
+
+    config = {"X-API-KEY" => apiKey}
+
+    response = JSON.parse(HTTP.headers(config).get("https://api.pluggy.ai/transactions?accountId=#{accountId}").body)
+
+    newData = formated_data(response["results"])
+
+
+    if newData.length == 1
+      process_single_transaction(newData.first)
+    else
+      process_multiple_transactions(newData)
+    end
+  end
+
+   # PATCH/PUT /transactions/1
+   def update
     if @transaction.update(transaction_params)
       render json: @transaction
     else
@@ -39,13 +61,58 @@ class TransactionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+
+  def formated_data(transactions_data)
+
+     
+    formatted_transactions = transactions_data.map do |data|
+      {
+      pluggy_id: data["id"],
+      description: data["description"],
+      currency_code: data["currencyCode"],
+      amount: data["amount"],
+      date: data["date"],
+      category: data["category"],
+      category_id: data["categoryId"],
+      account_pluggy_id: data["accountId"],
+      status: data["status"],
+      transaction_type: data["type"],
+      merchant_business_name: data.dig("merchant", "businessName"),
+      merchant_category: data.dig("merchant", "category"),
+      user_id: current_user.id 
+    }
+    end
+  end
+  
+  
+  def process_single_transaction(params)
+    transaction = Transaction.new(params)
+    if transaction.save
+      render json: transaction, status: :created, location: transaction
+    else
+      render json: transaction.errors, status: :unprocessable_entity
+    end
+  end
+  
+  def process_multiple_transactions(params)
+    transactions = params.map { |t| Transaction.new(t) }
+    if transactions.all?(&:valid?)
+      transactions.each(&:save)
+      render json: transactions, status: :created # Ajuste a localização conforme necessário
+    else
+      render json: transactions.map(&:errors), status: :unprocessable_entity
+    end
+  end
+  
+      # Use callbacks to share common setup or constraints between actions.
     def set_transaction
       @transaction = Transaction.find(params[:id])
     end
 
     # Only allow a list of trusted parameters through.
     def transaction_params
-      params.require(:transaction).permit(:pluggy_id, :description, :currency_code, :amount, :date, :category, :category_id, :account_pluggy_id, :status, :transaction_type, :merchant_business_name, :merchant_category, :user_id)
+     params[:transactions].map do |t|
+      t.permit(:pluggy_id, :description, :currency_code, :amount, :date, :category, :category_id, :account_pluggy_id, :status, :transaction_type, :merchant_business_name, :merchant_category, :user_id)
+     end
     end
 end
