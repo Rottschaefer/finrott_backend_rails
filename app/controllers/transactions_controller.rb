@@ -41,12 +41,20 @@ class TransactionsController < ApplicationController
     end
 
     def get_amount_per_category
-
-      puts current_user[:id]
-
-      amountsPerCategory = Transaction.select("category, sum(amount)").group("category").order('sum desc').having("sum(amount) > 0")
-      render json: {amountsPerCategory: amountsPerCategory}
+      month = params[:month].to_i
+      year = params[:year].to_i
+    
+      amountsPerCategory = Transaction
+        .select("category, SUM(amount) as total_amount")
+        .where(user_id: current_user[:id])
+        .where("extract(year from date) = ? AND extract(month from date) = ?", year, month)
+        .group("category")
+        .order("total_amount DESC")
+        .having("SUM(amount) > 0")
+    
+      render json: { amountsPerCategory: amountsPerCategory }
     end
+    
 
   def first_setup_transactions
     
@@ -110,6 +118,11 @@ class TransactionsController < ApplicationController
     else
       render json: transactions.map(&:errors), status: :unprocessable_entity
     end
+  end
+
+
+  def for_month_and_year(year, month)
+    Transaction.where("extract(year from date) = ? AND extract(month from date) = ?", year, month)
   end
   
       # Use callbacks to share common setup or constraints between actions.
