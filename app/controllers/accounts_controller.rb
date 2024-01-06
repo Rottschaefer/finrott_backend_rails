@@ -38,7 +38,6 @@ class AccountsController < ApplicationController
 
     accountInfo = JSON.parse(HTTP.headers(config).get(urlToGetAccountInfo).body)
 
-
     accountToSave = {
       pluggy_id: accountInfo["id"],
       item_id: accountInfo["itemId"],
@@ -50,6 +49,8 @@ class AccountsController < ApplicationController
       institution_image_url: itemsResponse["connector"]["imageUrl"],
 
     }
+
+    puts accountToSave
 
 
     @account = Account.new(accountToSave)
