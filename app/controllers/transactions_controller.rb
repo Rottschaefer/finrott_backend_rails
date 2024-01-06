@@ -26,6 +26,28 @@ class TransactionsController < ApplicationController
     end
   end
 
+     # PATCH/PUT /transactions/1
+     def update
+      if @transaction.update(transaction_params)
+        render json: @transaction
+      else
+        render json: @transaction.errors, status: :unprocessable_entity
+      end
+    end
+  
+    # DELETE /transactions/1
+    def destroy
+      @transaction.destroy!
+    end
+
+    def get_amount_per_category
+
+      puts current_user[:id]
+
+      amountsPerCategory = Transaction.select("category, sum(amount)").group("category").order('sum desc').having("sum(amount) > 0")
+      render json: {amountsPerCategory: amountsPerCategory}
+    end
+
   def first_setup_transactions
     
     accountId = params[:accountId]
@@ -44,20 +66,6 @@ class TransactionsController < ApplicationController
     else
       process_multiple_transactions(newData)
     end
-  end
-
-   # PATCH/PUT /transactions/1
-   def update
-    if @transaction.update(transaction_params)
-      render json: @transaction
-    else
-      render json: @transaction.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /transactions/1
-  def destroy
-    @transaction.destroy!
   end
 
   private
