@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :accounts
 
   get "setup/transactions", to: "transactions#first_setup_transactions"
+  get "categories/transactions", to: "transactions#get_amount_per_category"
 
   post "auth/login", to: "auth#login"
   # post "auth/login-with-token", to: "application#current_user"
@@ -21,3 +22,4 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "posts#index"
 end
+
