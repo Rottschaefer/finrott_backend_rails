@@ -45,14 +45,28 @@ class TransactionsController < ApplicationController
       year = params[:year].to_i
     
       amountsPerCategory = Transaction
-        .select("category, SUM(amount) as total_amount")
+        .select("category_id, category, SUM(amount) as total_amount")
         .where(user_id: current_user[:id])
         .where("extract(year from date) = ? AND extract(month from date) = ?", year, month)
-        .group("category")
+        .group("category_id, category")
         .order("total_amount DESC")
         .having("SUM(amount) > 0")
     
       render json: { amountsPerCategory: amountsPerCategory }
+    end
+
+
+    def get_transactions_per_category
+      month = params[:month].to_i
+      year = params[:year].to_i
+      transactionsPerCategory = 
+      Transaction
+      .where(category_id: params[:category_id])
+      .where(user_id: current_user[:id])
+      .where("extract(year from date) = ? AND extract(month from date) = ?", year, month)
+
+        
+      render json: {transactionsPerCategory: transactionsPerCategory}
     end
     
 
@@ -102,7 +116,13 @@ class TransactionsController < ApplicationController
   
   
   def process_single_transaction(params)
-    transaction = Transaction.new(params)
+
+    formattedParams = {description: params["description"],
+    amount: params["amount"],
+    category: params["category"],
+    user_id: 1,
+  }
+    transaction = Transaction.new(formattedParams)
     if transaction.save
       render json: transaction, status: :created, location: transaction
     else
