@@ -120,6 +120,8 @@ class TransactionsController < ApplicationController
     formattedParams = {description: params["description"],
     amount: params["amount"],
     category: params["category"],
+    category_id: params["category_id"],
+    date: params["date"],
     user_id: 1,
   }
     transaction = Transaction.new(formattedParams)
