@@ -122,7 +122,7 @@ class TransactionsController < ApplicationController
     category: params["category"],
     category_id: params["category_id"],
     date: params["date"],
-    user_id: 1,
+    user_id: current_user[:id],
   }
     transaction = Transaction.new(formattedParams)
     if transaction.save
