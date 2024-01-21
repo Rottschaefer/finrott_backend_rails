@@ -28,7 +28,7 @@ class TransactionsController < ApplicationController
 
      # PATCH/PUT /transactions/1
      def update
-      if @transaction.update(transaction_params)
+      if @transaction.update(transaction_params.first)
         render json: @transaction
       else
         render json: @transaction.errors, status: :unprocessable_entity
