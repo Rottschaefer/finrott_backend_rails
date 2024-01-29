@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :fixed_transactions
   resources :transactions
   resources :items
   resources :users
@@ -7,6 +8,7 @@ Rails.application.routes.draw do
   get "setup/transactions", to: "transactions#first_setup_transactions"
   get "categories/transactions", to: "transactions#get_amount_per_category"
   get "categories/transactions/:category_id", to: "transactions#get_transactions_per_category"
+  get "categories/fixed_transactions/", to: "fixed_transactions#get_fixed_transactions_amount"
 
   post "auth/login", to: "auth#login"
   # post "auth/login-with-token", to: "application#current_user"
