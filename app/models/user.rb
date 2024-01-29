@@ -3,6 +3,7 @@ class User < ApplicationRecord
     has_many :accounts
     has_many :items
     has_many :transactions
+    has_many :fixed_transactions
     validates :name, 
         presence: true,
         length: {minimum: 2}

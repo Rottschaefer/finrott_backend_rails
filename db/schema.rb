@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_03_102340) do
+ActiveRecord::Schema[7.1].define(version: 2024_01_29_144127) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -25,6 +25,16 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_03_102340) do
     t.string "bank_primary_color"
     t.string "institution_url"
     t.string "institution_image_url"
+  end
+
+  create_table "fixed_transactions", force: :cascade do |t|
+    t.string "user_id"
+    t.string "category"
+    t.string "description"
+    t.float "amount"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "date"
   end
 
   create_table "items", force: :cascade do |t|
