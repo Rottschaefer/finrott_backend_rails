@@ -19,7 +19,7 @@ class FixedTransactionsController < ApplicationController
   
     fixed_transaction_amounts = FixedTransaction
     .where(user_id: current_user[:id])
-    # .where("extract(year from created_at) <= ? AND extract(month from created_at) <= ?", year, month)
+    # .where("extract(year from updated_at) <= ? AND extract(month from updated_at) <= ?", year, month)
     .sum(:amount)
 
     render json: {total_amount: fixed_transaction_amounts}
