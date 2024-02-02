@@ -18,14 +18,15 @@ class UsersController < ApplicationController
   def create
 
     
-    @user = User.create!(user_params)
+    @user = User.new(user_params)
 
     token = encode_token(@user.email)
 
     if @user.save
       render json: {name: @user.name, email: @user.email, token: token}, status: :created, location: user_url(@user)
     else
-      render json: @user.errors, status: :unprocessable_entity
+      puts @user.errors
+      render json: @user.errors.full_messages, status: :unprocessable_entity
     end
   end
 
