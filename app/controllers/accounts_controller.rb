@@ -7,7 +7,7 @@ class AccountsController < ApplicationController
 
   # GET /accounts
   def index
-    @accounts = Account.all
+    @accounts = Account.left_outer_joins(:bank).select('accounts.*, banks.*').where("user_id=?", current_user[:id])
 
     render json: @accounts
   end
@@ -20,37 +20,12 @@ class AccountsController < ApplicationController
   # POST /accounts
   def create
 
-    pluggyApiKey = get_pluggy_key()
-    config = {"X-API-KEY" => pluggyApiKey}
-
-
-    urlToGetItems = "https://api.pluggy.ai/items/#{account_params["item_id"]}"
-
-    itemsResponse = JSON.parse(HTTP.headers(config).get(urlToGetItems).body)
-
-
-    urlToGetAccount = "https://api.pluggy.ai/accounts?itemId=#{account_params["item_id"]}"
-
-    accountsResponse = JSON.parse(HTTP.headers(config).get(urlToGetAccount).body)["results"]
-
-
-    urlToGetAccountInfo = "https://api.pluggy.ai/accounts/#{accountsResponse[0]["id"]}"
-
-    accountInfo = JSON.parse(HTTP.headers(config).get(urlToGetAccountInfo).body)
-
     accountToSave = {
-      pluggy_id: accountInfo["id"],
-      item_id: accountInfo["itemId"],
       user_id: current_user.id,
-      balance: accountInfo["balance"],
-      bank_name: itemsResponse["connector"]["name"],
-      bank_primary_color: itemsResponse["connector"]["primaryColor"],
-      institution_url: itemsResponse["connector"]["institutionUrl"],
-      institution_image_url: itemsResponse["connector"]["imageUrl"],
-
+      balance: account_params["balance"],
+      bank_name: account_params["bank_name"],
     }
 
-    puts accountToSave
 
 
     @account = Account.new(accountToSave)
@@ -86,6 +61,6 @@ class AccountsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def account_params
-      params.require(:account).permit(:pluggy_id, :item_id, :user_id, :bank_name, :balance, :bank_primary_color, :institution_url, :institution_image_url)
+      params.require(:account).permit(:bank_name, :balance)
     end
 end

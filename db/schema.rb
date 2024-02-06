@@ -10,21 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_01_29_144127) do
+ActiveRecord::Schema[7.1].define(version: 2024_02_06_154854) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.string "pluggy_id"
-    t.string "item_id"
     t.integer "user_id"
     t.string "bank_name"
     t.float "balance"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "bank_primary_color"
+    t.integer "bank_id"
+  end
+
+  create_table "banks", force: :cascade do |t|
+    t.string "name"
+    t.string "primary_color"
     t.string "institution_url"
     t.string "institution_image_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "fixed_transactions", force: :cascade do |t|

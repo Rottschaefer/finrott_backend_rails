@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :banks
   resources :fixed_transactions
   resources :transactions
   resources :items
