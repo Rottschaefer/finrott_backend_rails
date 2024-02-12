@@ -3,7 +3,7 @@ class FixedTransactionsController < ApplicationController
 
   # GET /fixed_transactions
   def index
-    @fixed_transactions = FixedTransaction.all
+    @fixed_transactions = FixedTransaction.where(user_id: current_user[:id])
 
     render json: @fixed_transactions
   end
