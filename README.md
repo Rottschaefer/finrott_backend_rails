@@ -1,24 +1,39 @@
-# README
+<h1 align="center">
+     Finrott - Back End
+</h1>
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+<h4 align="left">
+    Back End that handles a CRUD of personal financial transactions, specially used for the Finrott Front End in this repo: https://github.com/Rottschaefer/Finrott
+</h4>
 
-Things you may want to cover:
 
-* Ruby version
+##  🕵About
 
-* System dependencies
+Back End using RubyOnRails and PostegresSQL that supports different users, using JWT tokens and the BCrypt gem, and enables the user to input their financial transactions and keep track of them.
 
-* Configuration
+##  👩🏾Who does
 
-* Database creation
+- Eduardo Rottschaefer Oliveira
 
-* Database initialization
+Conect with me on LinkedIn! - https://www.linkedin.com/in/eduardo-rottschaefer
 
-* How to run the test suite
+---
 
-* Services (job queues, cache servers, search engines, etc.)
+## 👨‍💻Technologies and Structures
 
-* Deployment instructions
+- [x] Ruby
+- [x] RubyOnRails
+- [x] PostegresSQL
+- [x] BCrypt
+- [x] JWT Tokens 
 
-* ...
+## 🔗Link to use
+
+- For securities measures, send a message to my profile on LinkedIn to get the **Path to use the API via HTTP**
+
+---
+
+## 📝License
+
+This project is under the MIT license [MIT](./LICENSE).
+
